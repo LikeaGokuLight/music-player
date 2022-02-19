@@ -5,8 +5,8 @@ import {faPlay, faAngleLeft, faAngleRight, faPause} from '@fortawesome/free-soli
 
 const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
     const [songInfo, setSongInfo] = useState({
-        currentTime: null,
-        duration: null
+        currentTime: 0,
+        duration: 0
     });
 
     const audioRef = useRef()
@@ -35,11 +35,16 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
         setSongInfo({...songInfo, currentTime: current, duration })
     }
 
+    const dragHandler = (e) => {
+        audioRef.current.currentTime = e.target.value
+        setSongInfo({ ...songInfo, currentTime: e.target.value })
+    }
+
     return (
         <div className={'player-container'}>
             <div className={'time-control'}>
                 <p>{ adjustTime(songInfo.currentTime) }</p>
-                <input type="range"/>
+                <input onChange={dragHandler} min={0} max={songInfo.duration} value={songInfo.currentTime} type="range" />
                 <p>{ adjustTime(songInfo.duration) }</p>
             </div>
             <div className={'play-control'}>
