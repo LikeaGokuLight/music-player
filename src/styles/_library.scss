@@ -9,6 +9,10 @@
   background-color: #F7F7F7;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   overflow: scroll;
+  opacity:0;
+  pointer-events: none;
+  transform: translateX(-100%);
+  transition: all 0.5s ease;
 
   h2 {
     padding: 2rem;
@@ -46,6 +50,12 @@
 .selected {
   background-color: #C8C6C6;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.active-library {
+  opacity:1;
+  pointer-events: visible;
+  transform: translateX(0);
 }
 
 * {

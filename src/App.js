@@ -5,6 +5,7 @@ import Player from "./components/Player";
 import Song from "./components/Song";
 import chillHopData from "./data";
 import Library from "./components/Library";
+import Nav from "./components/Nav";
 
 const App = () => {
     // STATE
@@ -15,6 +16,7 @@ const App = () => {
         currentTime: 0,
         duration: 0
     });
+    const [libraryStatus, setLibraryStatus] = useState(false);
     // REF
     const audioRef = useRef()
 
@@ -27,6 +29,7 @@ const App = () => {
 
     return (
         <div className="App">
+            <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
             <Song currentSong={currentSong} />
             <Player
                 currentSong={currentSong}
@@ -43,6 +46,7 @@ const App = () => {
                 audioRef={audioRef}
                 isPlaying={isPlaying}
                 setSongs={setSongs}
+                libraryStatus={libraryStatus}
             />
 
             <audio
