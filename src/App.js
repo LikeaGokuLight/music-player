@@ -36,12 +36,39 @@ const App = () => {
     const songEndHandler = async () => {
         let findActiveSongIndex = songs.findIndex((song) => song.id === currentSong.id)
         await setCurrentSong(songs[(findActiveSongIndex + 1) % songs.length])
+
+        if (isPlaying) {
+            audioRef.current.play()
+        }
+
+        const activeLibraryHandler = (nexPrev) => {
+            const newSongs = songs.map((song) => {
+                if (song.id === nexPrev.id) {
+                    return {
+                        ...song, active: true
+                    }
+                } else {
+                    return {
+                        ...song, active: false
+                    }
+                }
+            })
+
+            setSongs(newSongs)
+
+            if ( isPlaying ) {
+                audioRef.current.play()
+            }
+
+        }
+
+        activeLibraryHandler(songs[(findActiveSongIndex + 1) % songs.length])
     }
 
     return (
-        <div className="App">
+        <div className={`App ${libraryStatus ? 'library-active' : ''}`}>
             <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
-            <Song currentSong={currentSong} />
+            <Song currentSong={currentSong} isPlaying={isPlaying} />
             <Player
                 currentSong={currentSong}
                 isPlaying={isPlaying}

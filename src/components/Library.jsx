@@ -1,6 +1,5 @@
 import React from 'react';
 import LibrarySong from "./LibrarySong";
-// import { v4 as uuidv4 } from 'uuid';
 
 const Library = ({ songs, setCurrentSong, setIsPlaying, audioRef, isPlaying, setSongs, libraryStatus }) => {
 

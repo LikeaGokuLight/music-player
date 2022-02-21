@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 //
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlay, faAngleLeft, faAngleRight, faPause} from '@fortawesome/free-solid-svg-icons'
@@ -32,21 +32,25 @@ const Player = ({ currentSong, isPlaying, setIsPlaying, audioRef, songInfo, setS
 
         if (direction === 'skip-forward') {
             await setCurrentSong(songs[(findActiveSongIndex + 1) % songs.length])
+            activeLibraryHandler(songs[(findActiveSongIndex + 1) % songs.length])
+            return
         }
 
         if (direction === 'skip-back') {
             if ( (findActiveSongIndex - 1) % songs.length === -1 ) {
-                setCurrentSong(songs[songs.length -1])
+                await setCurrentSong(songs[songs.length -1])
+                activeLibraryHandler(songs[songs.length -1])
                 return
             }
 
-            setCurrentSong(songs[(findActiveSongIndex - 1) % songs.length])
+            await setCurrentSong(songs[(findActiveSongIndex - 1) % songs.length])
+            activeLibraryHandler(songs[(findActiveSongIndex - 1) % songs.length])
         }
     }
 
-    useEffect(async () => {
+    const activeLibraryHandler = (nexPrev) => {
         const newSongs = songs.map((song) => {
-            if (song.id === currentSong.id) {
+            if (song.id === nexPrev.id) {
                 return {
                     ...song, active: true
                 }
@@ -57,13 +61,14 @@ const Player = ({ currentSong, isPlaying, setIsPlaying, audioRef, songInfo, setS
             }
         })
 
-        await setSongs(newSongs)
+        setSongs(newSongs)
 
         if ( isPlaying ) {
             audioRef.current.play()
         }
 
-    }, [currentSong]);
+    }
+
 
     // Styles animation
     const trackAnime = {
@@ -86,7 +91,7 @@ const Player = ({ currentSong, isPlaying, setIsPlaying, audioRef, songInfo, setS
                         value={songInfo.currentTime}
                         type="range"
                     />
-                    <div style={trackAnime} className={'animate-track'}></div>
+                    <div style={trackAnime} className={'animate-track'}/>
                 </div>
                 <p>{ songInfo.duration ? adjustTime(songInfo.duration) : '0:00'}</p>
             </div>
