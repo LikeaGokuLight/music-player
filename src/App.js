@@ -6,6 +6,7 @@ import Song from "./components/Song";
 import chillHopData from "./data";
 import Library from "./components/Library";
 import Nav from "./components/Nav";
+import Footer from "./components/Footer";
 
 const App = () => {
     // STATE
@@ -97,6 +98,8 @@ const App = () => {
                 onLoadedMetadata={timeUpdateHandler}
                 onEnded={songEndHandler}
             />
+
+            <Footer />
         </div>
     );
 }
